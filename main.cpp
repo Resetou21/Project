@@ -8,7 +8,14 @@
 using namespace std;
 
 class Cell {
-    virtual bool cellState() 
+public:
+    virtual bool estVivante() const = 0;
+    virtual void setEtat(bool etat) = 0;
+    virtual ~Cellule() {}
+};
+
+class LifeCell : Cell {
+    
 }
 // Configuration globale
 const int cellSize = 10;
