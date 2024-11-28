@@ -4,33 +4,24 @@
 #include <ctime>
 #include <cstdlib>
 #include <fstream>
-
+#include <Cell.h>
 using namespace std;
 
-class Cell {
-public:
-    virtual bool estVivante() const = 0;
-    virtual void setEtat(bool etat) = 0;
-    virtual ~Cellule() {}
-};
 
-class LifeCell : Cell {
-    
-}
 // Configuration globale
 const int cellSize = 10;
 const int gridWidth = 80;
 const int gridHeight = 80;
 
 // Grille de cellules
-std::vector<std::vector<int>> grid(gridWidth, std::vector<int>(gridHeight));
+vector<vector<int>> grid(gridWidth, vector<int>(gridHeight));
 
 // Fonction d'initialisation de la grille
 void initializeGrid() {
-    std::srand(std::time(0));
+    srand(time(0));
     for (int x = 0; x < gridWidth; ++x) {
         for (int y = 0; y < gridHeight; ++y) {
-            grid[x][y] = std::rand() % 2;  // Initialise aléatoirement les cellules comme vivantes ou mortes
+            grid[x][y] = rand() % 2;  // Initialise aléatoirement les cellules comme vivantes ou mortes
         }
     }
 }
