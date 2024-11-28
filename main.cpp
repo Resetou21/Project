@@ -1,64 +1,16 @@
-#include <iostream>
-#include <vector>
 #include <SFML/Graphics.hpp>
-#include <ctime>
+#include <vector>
 #include <cstdlib>
-#include <fstream>
-#include "Cell.h"
+#include <ctime>
+#include <iostream>
+#include "Grid.h"
+
 using namespace std;
 
-const int cellSize = 10;
-const int gridWidth = 80;
-const int gridHeight = 80;
-
-
-vector<vector<Cell*>> grid(gridWidth, vector<Cell*>(gridHeight));
-
-void initializeGrid() {
-    srand(time(0));
-    for (int x = 0; x < gridWidth; ++x) {
-        for (int y = 0; y < gridHeight; ++y) {
-
-            int randomCellType = rand() % 3;
-            if (randomCellType == 0) {
-                grid[x][y] = new LifeCell();  
-            } else if (randomCellType == 1) {
-                grid[x][y] = new CelluleMorte();  
-            } else {
-                grid[x][y] = new CelluleObstacle();  
-            }
-        }
-    }
-}
-
-void renderGrid(sf::RenderWindow &window) {
-    window.clear();
-    sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
-
-    for (int x = 0; x < gridWidth; ++x) {
-        for (int y = 0; y < gridHeight; ++y) {
-
-            if (grid[x][y]->estVivante()) {
-                cell.setFillColor(sf::Color::White); 
-            } else {
-                cell.setFillColor(sf::Color::Black); 
-            }
-
-            cell.setPosition(x * cellSize, y * cellSize);
-            window.draw(cell);
-        }
-    }
-
-    window.display();
-}
-
 int main() {
-
-    sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
-
-
-    initializeGrid();
-
+    Grid grid;
+    sf::RenderWindow window(sf::VideoMode(grid.get_griWidth() * grid.get_cellSize(), grid.get_gridHeight() * grid.get_cellSize()), "Game of Life");
+    grid.initializeGrid();
 
     while (window.isOpen()) {
         sf::Event event;
@@ -67,18 +19,10 @@ int main() {
                 window.close();
         }
 
+        grid.renderGrid(window);
 
-        renderGrid(window);
 
- 
         sf::sleep(sf::milliseconds(100));
-    }
-
-
-    for (int x = 0; x < gridWidth; ++x) {
-        for (int y = 0; y < gridHeight; ++y) {
-            delete grid[x][y];  
-        }
     }
 
     return 0;
