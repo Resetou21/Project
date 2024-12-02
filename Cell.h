@@ -35,10 +35,10 @@ public:
 class CelluleObstacle : public Cell {
 public:
     bool estVivante() const override {
-        return true; // L'obstacle reste toujours "vivant" mais ne change jamais.
+        return true;
     }
 
     void setEtat(bool etat) override {
-        // Ne rien faire car une cellule obstacle ne change pas.
+       
     }
 };

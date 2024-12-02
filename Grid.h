@@ -14,11 +14,11 @@ private:
     const int cellSize = 10; 
     const int gridWidth = 80; 
     const int gridHeight = 80; 
-    vector<vector<Cell*>> cellules; // Déclaration correcte
+    vector<vector<Cell*>> cellules; 
 public:
     vector<vector<int>> grid;
 
-    Grid() : cellules(gridWidth, vector<Cell*>(gridHeight, nullptr)) {} // Initialisation
+    Grid() : cellules(gridWidth, vector<Cell*>(gridHeight, nullptr)) {}
 
     int get_gridWidth() const{
     return gridWidth;
@@ -35,7 +35,22 @@ public:
     const std::vector<std::vector<Cell*>>& getCells() const {
         return cellules;
     }
-
+    void placePattern(int x, int y, const vector<vector<int>>& pattern) {
+        for (int i = 0; i < pattern.size(); ++i) {
+            for (int j = 0; j < pattern[i].size(); ++j) {
+                if (pattern[i][j] == 1) {
+                    cellules[x + i][y + j] = new LifeCell();
+                } else {
+                    cellules[x + i][y + j] = new DeathCell();
+                }
+            }
+        }
+    }
+    vector<vector<int>> glider = {
+        {0, 1, 0},
+        {0, 0, 1},
+        {1, 1, 1}
+    };
     void initializeGrid() {
     srand(time(0));
         for (int x = 0; x < gridWidth; ++x) {
@@ -57,7 +72,7 @@ public:
             int nx = i + dx;
             int ny = j + dy;
 
-            // Vérifie que les indices sont valides
+            
             if (nx >= 0 && nx < gridWidth && ny >= 0 && ny < gridHeight) {
                 if (cellules[nx][ny] && cellules[nx][ny]->estVivante()) {
                     nombre_voisin++;
@@ -68,38 +83,39 @@ public:
     return nombre_voisin;
     }
 
-    void update(){
+void update() {
     vector<vector<Cell*>> cellules_maj(gridWidth, vector<Cell*>(gridHeight, nullptr));
-        for (int i=0; i < gridWidth;i++){
-            for (int j = 0; j < gridHeight; j++){
-                if (cellules[i][j]->estVivante()){
-                    if (compterVoisinsVivants(i,j)==2 || compterVoisinsVivants(i,j)==3){
-                        cellules_maj[i][j]=new LifeCell();
-                    } 
-                    else {
-                        cellules_maj[i][j]=new DeathCell();
-                    } 
+    for (int i = 0; i < gridWidth; ++i) {
+        for (int j = 0; j < gridHeight; ++j) {
+            if (dynamic_cast<CelluleObstacle*>(cellules[i][j])) {
+              
+                cellules_maj[i][j] = cellules[i][j];
+                continue;
+            }
+
+            if (cellules[i][j]->estVivante()) {
+                if (compterVoisinsVivants(i, j) == 2 || compterVoisinsVivants(i, j) == 3) {
+                    cellules_maj[i][j] = new LifeCell();
+                } else {
+                    cellules_maj[i][j] = new DeathCell();
                 }
-                else {
-                    if (compterVoisinsVivants(i,j)==3){
-                        cellules_maj[i][j]=new LifeCell();
-                    } 
-                    else {
-                        cellules_maj[i][j]=new DeathCell();
-                    }                
+            } else {
+                if (compterVoisinsVivants(i, j) == 3) {
+                    cellules_maj[i][j] = new LifeCell();
+                } else {
+                    cellules_maj[i][j] = new DeathCell();
                 }
             }
-                
         }
-        for (int i=0; i < gridWidth;i++){
-            for (int j = 0; j < gridHeight; j++){
-            cellules[i][j]=cellules_maj[i][j];
-            }
-        }   
-
-
-
     }
+    for (int i = 0; i < gridWidth; ++i) {
+        for (int j = 0; j < gridHeight; ++j) {
+            delete cellules[i][j];  
+            cellules[i][j] = cellules_maj[i][j];
+        }
+    }
+}
+
 
     ~Grid() {
         for (int i = 0; i < gridWidth; ++i) {
@@ -124,7 +140,4 @@ void renderGrid(sf::RenderWindow &window) {
     }
     window.display();
 }
-
-
-
 };
