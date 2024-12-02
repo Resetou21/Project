@@ -18,9 +18,10 @@ public:
     void setEtat(bool etat) override {
         vivante = etat;
     }
+
 };
 
-class CelluleMorte : public Cell {
+class DeathCell : public Cell {
 public:
     bool estVivante() const override {
         return false;
