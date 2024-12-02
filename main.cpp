@@ -4,8 +4,6 @@
 #include <ctime>
 #include <iostream>
 #include <filesystem>
-
-
 #include "Grid.h"
 
 using namespace std;
@@ -27,11 +25,14 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        iteration++;
+   
 
         grid.renderGrid(window);
+        grid.update();
+        grid.writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt");
 
-
+ 
+        iteration++;
         sf::sleep(sf::milliseconds(100));
     }
 

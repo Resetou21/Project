@@ -66,9 +66,9 @@ public:
     }
 
     void update(){
-    vector<vector<Cell*>> cellules_maj;
-        for (int i=0; i<=gridWidth;i++){
-            for (int j = 0; j <= gridHeight; j++){
+    vector<vector<Cell*>> cellules_maj(gridWidth, vector<Cell*>(gridHeight, nullptr));
+        for (int i=0; i < gridWidth;i++){
+            for (int j = 0; j < gridHeight; j++){
                 if (cellules[i][j]->estVivante()){
                     if (compterVoisinsVivants(i,j)==2 || compterVoisinsVivants(i,j)==3){
                         cellules_maj[i][j]=new LifeCell();
@@ -88,8 +88,8 @@ public:
             }
                 
         }
-        for (int i=0; i<=gridWidth;i++){
-            for (int j = 0; j <= gridHeight; j++){
+        for (int i=0; i < gridWidth;i++){
+            for (int j = 0; j < gridHeight; j++){
             cellules[i][j]=cellules_maj[i][j];
             }
         }   
@@ -123,6 +123,25 @@ void renderGrid(sf::RenderWindow &window) {
 }
 
 
+void writeToFile(const string &filename) {
+    ofstream file(filename);  // Ouvrir le fichier
+    if (!file.is_open()) {    // Vérifier si l'ouverture a échoué
+        cout << "Impossibilité d'ouvrir  le fichier" << endl;
+        exit(1);
+    } else {
+        for (int i = 0; i < gridWidth; i++) {
+            for (int j = 0; j < gridHeight; j++) {
+                // Vérifier l'état de la cellule et écrire dans le fichier
+                if (cellules[i][j] && cellules[i][j]->estVivante()) {
+                    file << "1 ";  
+                } else {
+                    file << "0 ";  
+                }
+            }
+            file << endl;  
+        }
+    }
+}
 
 
 
