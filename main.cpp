@@ -39,12 +39,21 @@ int main() {
                 window.close();  
             }
             if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::G) {
-                    grid.placePattern(10, 10, glider);  
-                }
-                if (event.key.code == sf::Keyboard::Space) {
+                 if (event.key.code == sf::Keyboard::Space) {
                     isPaused = !isPaused; 
+                    if (isPaused) {
+                        cout << "Jeu mis en pause" << endl; 
+                    }
                 }
+            }
+            
+            if (event.type == sf::Event::MouseButtonPressed) {
+                    cout << "Glidder implémenter " << endl;
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    int X = mousePos.x / grid.get_cellSize();
+                    int Y = mousePos.y / grid.get_cellSize();
+                    grid.placePattern(X, Y, glider);
+                
             }
         }
         if (!isPaused) {
@@ -53,7 +62,6 @@ int main() {
             iteration++;
         }
         grid.renderGrid(window);
-        FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", "Some content to write");
         iteration++;
         sf::sleep(sf::milliseconds(100));
     }
