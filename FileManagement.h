@@ -3,23 +3,37 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
-
+#include <stack>
+#include "Grid.h"
 namespace fs = std::filesystem;
 using namespace std;
 class FileManagement {
 public:
-    // Fonction pour écrire dans un fichier
-    static void writeToFile(const string &filename, const string &content) {
-        ofstream file(filename);
+   static void writeToFile(const std::string &filename, const Grid &grid) {
+        std::ofstream file(filename);
         if (!file.is_open()) {
-            cerr << "Impossible d'ouvrir le fichier pour écrire : " << filename << std::endl;
+            std::cerr << "Impossible d'ouvrir le fichier : " << filename << std::endl;
             exit(1);
         }
-        file << content;
-        file.close();
+
+        int gridWidth = grid.get_gridWidth();
+        int gridHeight = grid.get_gridHeight();
+        const auto &cellules = grid.getCells(); 
+
+        for (int i = 0; i < gridWidth; ++i) {
+            for (int j = 0; j < gridHeight; ++j) {
+                if (cellules[i][j] && cellules[i][j]->estVivante()) {
+                    file << "1 ";
+                } else {
+                    file << "0 ";
+                }
+            }
+            file << std::endl;
+        }
     }
 
-    // Fonction pour supprimer tous les fichiers .txt dans un dossier donné
+
+
     static void deleteTxtFilesInDirectory(const string &directory) {
         try {
             for (const auto &entry : fs::directory_iterator(directory)) {

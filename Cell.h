@@ -28,7 +28,7 @@ public:
     }
 
     void setEtat(bool etat) override {
-        // Ne rien faire car une cellule morte ne peut pas devenir vivante.
+        
     }
 };
 

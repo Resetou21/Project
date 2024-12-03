@@ -6,7 +6,7 @@
 #include <filesystem>
 #include "Grid.h"
 #include "FileManagement.h"
-#include "Patern.h"
+
 
 namespace fs = std::filesystem;
 using namespace std;
@@ -22,6 +22,7 @@ int main() {
 
     bool isPaused = false; 
     Grid grid;
+
 
     sf::RenderWindow window(sf::VideoMode(grid.get_gridWidth() * grid.get_cellSize(), grid.get_gridHeight() * grid.get_cellSize()), "Game of Life");
     grid.initializeGrid();
@@ -48,17 +49,17 @@ int main() {
             }
             
             if (event.type == sf::Event::MouseButtonPressed) {
-                    cout << "Glidder implémenter " << endl;
+                    cout << "Glidder implémenté " << endl;
                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                     int X = mousePos.x / grid.get_cellSize();
                     int Y = mousePos.y / grid.get_cellSize();
                     grid.placePattern(X, Y, glider);
-                
             }
         }
         if (!isPaused) {
             grid.update();  
-            FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", "Some content to write");
+            FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", grid);
+
             iteration++;
         }
         grid.renderGrid(window);

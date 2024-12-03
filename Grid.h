@@ -10,7 +10,7 @@
 using namespace std;
 
 class Grid {
-private:
+protected:
     const int cellSize = 10; 
     const int gridWidth = 80; 
     const int gridHeight = 80; 
@@ -23,7 +23,6 @@ public:
     int get_gridWidth() const{
     return gridWidth;
     }
-    
 
     int get_cellSize() const{
     return cellSize;
@@ -35,35 +34,63 @@ public:
     const std::vector<std::vector<Cell*>>& getCells() const {
         return cellules;
     }
-    void placePattern(int x, int y, const vector<vector<int>>& pattern) {
-        for (int i = 0; i < pattern.size(); ++i) {
-            for (int j = 0; j < pattern[i].size(); ++j) {
-                if (pattern[i][j] == 1) {
-                    cellules[x + i][y + j] = new LifeCell();
-                } else {
-                    cellules[x + i][y + j] = new DeathCell();
-                }
-            }
-        }
-    }
-    vector<vector<int>> glider = {
-        {0, 1, 0},
-        {0, 0, 1},
-        {1, 1, 1}
-    };
-    void initializeGrid() {
-    srand(time(0));
-        for (int x = 0; x < gridWidth; ++x) {
-            for (int y = 0; y < gridHeight; ++y) {
-                if (rand() % 2 == 0) {
-                    cellules[x][y] = new DeathCell();
-                } else {
-                    cellules[x][y] = new LifeCell();
-                }
-            }
-        }
-    }
 
+    void initializeGrid() {
+        srand(time(0));
+        char type;
+        cout << "|R|andom ou |G|rille"<< endl; 
+        cin >> type;
+        if (type=='R'){ 
+            for (int x = 0; x < gridWidth; ++x) {
+                for (int y = 0; y < gridHeight; ++y) {
+                    if (rand() % 2 == 0) {
+                        cellules[x][y] = new DeathCell();
+                    } 
+                    else {
+                        cellules[x][y] = new LifeCell();
+                    }
+                }
+            }
+        }
+        else if (type == 'G'){
+            char caractere;
+            ifstream fichier("Grille.txt");
+            fichier.get(caractere);
+            for (int x = 0; x < gridWidth; ++x) {
+                for (int y = 0; y < gridHeight; ++y) {
+                    if (fichier.get(caractere)) {
+                        if (caractere == '0'){
+                            cellules[x][y] = new DeathCell();
+                        } 
+                        else {
+                            cellules[x][y] = new LifeCell();
+                        }
+                    }
+                }
+            }
+            fichier.close();
+        }    
+    }
+        
+            
+    
+    
+    void placePattern(int x, int y, const vector<vector<int>>& pattern) {
+            for (int i = 0; i < pattern.size(); ++i) {
+                for (int j = 0; j < pattern[i].size(); ++j) {
+                    if (pattern[i][j] == 1) {
+                        cellules[x + i][y + j] = new LifeCell();
+                    } else {
+                        cellules[x + i][y + j] = new DeathCell();
+                    }
+                }
+            }
+        }
+        vector<vector<int>> glider = {
+            {0, 1, 0},
+            {0, 0, 1},
+            {1, 1, 1}
+        };
    int compterVoisinsVivants(int i, int j) {
     int nombre_voisin = 0;
     for (int dx = -1; dx <= 1; ++dx) {
@@ -71,8 +98,6 @@ public:
             if (dx == 0 && dy == 0) continue; // Ignore la cellule elle-même
             int nx = i + dx;
             int ny = j + dy;
-
-            
             if (nx >= 0 && nx < gridWidth && ny >= 0 && ny < gridHeight) {
                 if (cellules[nx][ny] && cellules[nx][ny]->estVivante()) {
                     nombre_voisin++;
