@@ -46,13 +46,20 @@ int main() {
                         cout << "Jeu mis en pause" << endl; 
                     }
                 }
+                if (event.key.code == sf::Keyboard::O) {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    int X = mousePos.x / grid.get_cellSize();
+                    int Y = mousePos.y / grid.get_cellSize();
+                    grid.placeObstacle(X, Y); 
+                }
             }
             
             if (event.type == sf::Event::MouseButtonPressed) {
                     cout << "Glidder implémenté " << endl;
                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                    int X = mousePos.x / grid.get_cellSize();
-                    int Y = mousePos.y / grid.get_cellSize();
+                         int X = mousePos.x / grid.get_cellSize();
+                         int Y = mousePos.y / grid.get_cellSize();
+
                     grid.placePattern(X, Y, glider);
             }
         }
@@ -64,7 +71,7 @@ int main() {
         }
         grid.renderGrid(window);
         iteration++;
-        sf::sleep(sf::milliseconds(100));
+        sf::sleep(sf::milliseconds(0));
     }
     return 0;
 };

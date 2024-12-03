@@ -2,7 +2,7 @@
 
 class Cell {
 public:
-    virtual bool estVivante() const = 0;
+    virtual int estVivante() const = 0;
     virtual void setEtat(bool etat) = 0;
     virtual ~Cell() {}
 };
@@ -12,8 +12,8 @@ private:
 public:
     LifeCell() : vivante(true) {}
 
-    bool estVivante() const override {
-        return vivante;
+    int estVivante() const  {
+        return 1;
     }
     void setEtat(bool etat) override {
         vivante = etat;
@@ -23,8 +23,8 @@ public:
 
 class DeathCell : public Cell {
 public:
-    bool estVivante() const override {
-        return false;
+    int estVivante() const  {
+        return 0;
     }
 
     void setEtat(bool etat) override {
@@ -34,8 +34,8 @@ public:
 
 class CelluleObstacle : public Cell {
 public:
-    bool estVivante() const override {
-        return true;
+    int estVivante() const {
+        return 2;
     }
 
     void setEtat(bool etat) override {

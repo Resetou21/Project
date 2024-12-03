@@ -22,10 +22,14 @@ public:
 
         for (int i = 0; i < gridWidth; ++i) {
             for (int j = 0; j < gridHeight; ++j) {
-                if (cellules[i][j] && cellules[i][j]->estVivante()) {
+                if (cellules[i][j] && cellules[i][j]->estVivante()==1) {
                     file << "1 ";
-                } else {
+                } 
+                else if(cellules[i][j] && cellules[i][j]->estVivante()==0){
                     file << "0 ";
+                }
+                else if(cellules[i][j] && cellules[i][j]->estVivante()==2){
+                    file << "2 ";
                 }
             }
             file << std::endl;
