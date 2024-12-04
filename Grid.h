@@ -119,11 +119,7 @@ public:
                     }
                 }
             }
-        vector<vector<int>> glider = {
-            {0, 1, 0},
-            {0, 0, 1},
-            {1, 1, 1}
-        };
+
     int compterVoisinsVivants(int i, int j) {
         int nombre_voisin = 0;
         for (int dx = -1; dx <= 1; ++dx) {
