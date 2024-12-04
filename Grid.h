@@ -83,7 +83,6 @@ public:
             fichier.close();
         }    
     }
-        
             
       void placeObstacle(int x, int y) {
             if (x >= 0 && x < gridWidth && y >= 0 && y < gridHeight) {
@@ -102,8 +101,6 @@ public:
                 }
             }
         }
-
-    
 
             void placePattern(int x, int y, const vector<vector<int>>& pattern) {
                 for (int i = 0; i < pattern.size(); ++i) {
@@ -144,7 +141,6 @@ public:
         return nombre_voisin;
     }
 
-
     void update() {
         vector<vector<Cell*>> cellules_maj(gridWidth, vector<Cell*>(gridHeight, nullptr));
         for (int i = 0; i < gridWidth; ++i) {
@@ -171,7 +167,6 @@ public:
             }
         }
 
-
         for (int i = 0; i < gridWidth; ++i) {
             for (int j = 0; j < gridHeight; ++j) {
                 delete cellules[i][j];  
@@ -179,7 +174,6 @@ public:
             }
         }
     }
-
 
         ~Grid() {
             for (int i = 0; i < gridWidth; ++i) {

@@ -22,9 +22,6 @@ int main() {
     float ecart;
     bool isPaused = false; 
     Grid grid;
-    cout << "Temps en millesecondes entre 2 mesures"<<endl;
-    cin>> ecart;
-
 
     sf::RenderWindow window(sf::VideoMode(grid.get_gridWidth() * grid.get_cellSize(), grid.get_gridHeight() * grid.get_cellSize()), "Game of Life");
     grid.initializeGrid();
@@ -59,8 +56,11 @@ int main() {
                     grid.placeLifeCell(X, Y); 
                 }
                 if (event.key.code == sf::Keyboard::I){
-                    isPaused = !isPaused; 
+
                     cout << "Modification des paramètres" << endl; 
+                    cin>> ecart;
+  
+                    
                 }
             
          }

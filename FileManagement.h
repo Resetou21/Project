@@ -36,8 +36,6 @@ public:
         }
     }
 
-
-
     static void deleteTxtFilesInDirectory(const string &directory) {
         try {
             for (const auto &entry : fs::directory_iterator(directory)) {
