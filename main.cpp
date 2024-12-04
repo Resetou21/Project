@@ -1,3 +1,12 @@
+/*                  
+██╗░░░░░ ██╗ ██████╗░ ███████╗   ██████╗░ ███████╗ ░█████╗░ ██████╗░ ███╗░░░███╗ ███████╗   
+██║░░░░░ ██║ ██╔══██╗ ██╔════╝   ██╔══██╗ ██╔════╝ ██╔══██╗ ██╔══██╗ ████╗░████║ ██╔════╝   
+██║░░░░░ ██║ ██████╔╝ █████╗░░   ██████╔╝ █████╗░░ ███████║ ██║░░██║ ██╔████╔██║ █████╗░░   
+██║░░░░░ ██║ ██╔══██╗ ██╔══╝░░   ██╔══██╗ ██╔══╝░░ ██╔══██║ ██║░░██║ ██║╚██╔╝██║ ██╔══╝░░   
+███████╗ ██║ ██║░░██║ ███████╗   ██║░░██║ ███████╗ ██║░░██║ ██████╔╝ ██║░╚═╝░██║ ███████╗   
+╚══════╝ ╚═╝ ╚═╝░░╚═╝ ╚══════╝   ╚═╝░░╚═╝ ╚══════╝ ╚═╝░░╚═╝ ╚═════╝░ ╚═╝░░░░░╚═╝ ╚══════╝
+*/
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <cstdlib>
@@ -12,17 +21,43 @@ namespace fs = std::filesystem;
 using namespace std;
 
 int main() {
+    Grid grille_test;
+    grille_test.test_unitaire();
+    grille_test.update();
+    grille_test.resutlat_test_unitaire();
+
+    vector<vector<int>> loaf = {
+    {0, 1, 1, 0},
+    {1, 0, 1, 1},
+    {0, 1, 0, 1},
+    {0, 1, 0, 0}
+    };
     vector<vector<int>> glider = {
         {0, 1, 0},
         {0, 0, 1},
         {1, 1, 1}
     };
+    vector<vector<int>> toad = {
+        {0, 1, 1, 0},
+        {1, 1, 1, 0},
+        {0, 0, 0, 0}
+    };
 
+    vector<vector<int>> beacon = {
+        {1, 1, 0, 0},
+        {1, 1, 0, 0},
+        {0, 0, 1, 1},
+        {0, 0, 1, 1}
+    };
+
+    int maxiteration;
     int iteration = 0;
-    float ecart;
+    float ecart = 100;
+    cout<<"Entrez le nombre d'iteration"<<endl;
+    cin>> maxiteration;
     bool isPaused = false; 
     Grid grid;
-
+    
     sf::RenderWindow window(sf::VideoMode(grid.get_gridWidth() * grid.get_cellSize(), grid.get_gridHeight() * grid.get_cellSize()), "Game of Life");
     grid.initializeGrid();
 
@@ -56,11 +91,17 @@ int main() {
                     grid.placeLifeCell(X, Y); 
                 }
                 if (event.key.code == sf::Keyboard::I){
-
                     cout << "Modification des paramètres" << endl; 
                     cin>> ecart;
-  
-                    
+                }
+                if (event.key.code == sf::Keyboard::Numpad1){
+                    grid.placePattern(X,Y,loaf);
+                }
+                if (event.key.code == sf::Keyboard::Numpad2){
+                    grid.placePattern(X,Y,toad);
+                }
+                if (event.key.code == sf::Keyboard::Numpad3){
+                    grid.placePattern(X,Y,beacon);
                 }
             
          }
@@ -69,15 +110,23 @@ int main() {
                     cout << "Glidder implémenté " << endl;
                     grid.placePattern(X, Y, glider);
             }
+
         }
-        if (!isPaused) {
+        if (!isPaused && iteration < maxiteration) {
             grid.update();  
             FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", grid);
             iteration++;
         }
+
+ 
         grid.renderGrid(window);
-        iteration++;
+
         sf::sleep(sf::milliseconds(ecart));
-    }
+        
+        }
+        
+        if (iteration >= maxiteration) {
+             cout << "Simulation terminée après " << maxiteration << " itérations." << endl;
+        }
     return 0;
 }

@@ -9,6 +9,7 @@ namespace fs = std::filesystem;
 using namespace std;
 class FileManagement {
 public:
+    // méthode pour écrire les fichiers corespondant a chaque ittération
    static void writeToFile(const std::string &filename, const Grid &grid) {
         std::ofstream file(filename);
         if (!file.is_open()) {
@@ -19,7 +20,7 @@ public:
         int gridWidth = grid.get_gridWidth();
         int gridHeight = grid.get_gridHeight();
         const auto &cellules = grid.getCells(); 
-
+        //ecriture dans le fichier
         for (int i = 0; i < gridWidth; ++i) {
             for (int j = 0; j < gridHeight; ++j) {
                 if (cellules[i][j] && cellules[i][j]->estVivante()==1) {
@@ -35,7 +36,7 @@ public:
             file << std::endl;
         }
     }
-
+    //méthode pour supprimer tous les fichier ittération sauf le dernier quand on ferme la fenêtre SFML
     static void deleteTxtFilesInDirectory(const string &directory) {
         try {
             for (const auto &entry : fs::directory_iterator(directory)) {

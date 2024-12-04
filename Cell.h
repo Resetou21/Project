@@ -32,7 +32,7 @@ public:
     }
 };
 
-class CelluleObstacle : public Cell {
+class ObstacleCell : public Cell {
 public:
     int estVivante() const {
         return 2;
