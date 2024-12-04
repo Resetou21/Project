@@ -20,12 +20,9 @@
 namespace fs = std::filesystem;
 using namespace std;
 
-int main() {
-    Grid grille_test;
-    grille_test.test_unitaire();
-    grille_test.update();
-    grille_test.resutlat_test_unitaire();
 
+int main() {
+    
     vector<vector<int>> loaf = {
     {0, 1, 1, 0},
     {1, 0, 1, 1},
@@ -53,6 +50,7 @@ int main() {
     int maxiteration;
     int iteration = 0;
     float ecart = 100;
+    int test_nombre_voisin;
     cout<<"Entrez le nombre d'iteration"<<endl;
     cin>> maxiteration;
     bool isPaused = false; 
@@ -113,7 +111,10 @@ int main() {
 
         }
         if (!isPaused && iteration < maxiteration) {
-            grid.update();  
+            
+            test_nombre_voisin = grid.compterVoisinsVivants(0,0);
+            grid.update();
+            cout<<grid.test(0,0,test_nombre_voisin)<<endl;  
             FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", grid);
             iteration++;
         }
@@ -128,5 +129,4 @@ int main() {
         if (iteration >= maxiteration) {
              cout << "Simulation terminée après " << maxiteration << " itérations." << endl;
         }
-    return 0;
 }

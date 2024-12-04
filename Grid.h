@@ -27,7 +27,7 @@ public:
     int get_cellSize() const;
     int get_gridHeight() const;
     const std::vector<std::vector<Cell*>>& getCells() const;
-
+    string test(int x, int y,int nombre_voisin);
     // Méthodes principales
     void initializeGrid(); // initialisation de la grille
     void test_unitaire();

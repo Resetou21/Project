@@ -177,35 +177,28 @@ void Grid::renderGrid(sf::RenderWindow& window) {
     }
     window.display();
 }
-
-void Grid::test_unitaire(){
-    char caractere;
-    cout << "Démarage test unitaire"<<endl;
-    ifstream fichier("Grille_vide.txt");
-    fichier.get(caractere);
-    for (int x = 0; x < gridWidth; ++x) {
-        for (int y = 0; y < gridHeight; ++y) {
-            if (fichier.get(caractere)) {
-                if (caractere == '0') {
-                    cellules[x][y] = new DeathCell();
-                } else if (caractere == '1') {
-                    cellules[x][y] = new LifeCell();
-                } else if (caractere == '2') {
-                    cellules[x][y] = new ObstacleCell();
-                } else {
-                    cellules[x][y] = new DeathCell();
-                }
+string Grid::test(int x, int y,int nombre_voisin){
+    if (cellules[x][y]->estVivante()==2){
+        return "C'est un obstacle o";
+    }
+    else{
+        if (cellules[x][y]->estVivante()==1){
+            if (nombre_voisin == 2 || nombre_voisin == 3){
+                return "Test validé v";
+            }
+            else{
+                return "Test non validé v";
             }
         }
+        else if (cellules[x][y]->estVivante()==0){            
+            if (nombre_voisin != 3){
+                return "Test validé m";
+            }
+            else{
+                return "Test non validé m";
+            }
+        
+        }
     }
-    fichier.close();   
-}
-
-void Grid::resutlat_test_unitaire(){
-    for (int i = 0; i < gridWidth; ++i) {
-        for (int j = 0; j < gridHeight; ++j) {
-            cout<<cellules[i][j]->estVivante();
-     }
-     cout<<"f"<<endl;
-     }       
+    return "Erreur inconnue"; // Par défaut pour éviter un chemin non couvert
 }
