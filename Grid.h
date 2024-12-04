@@ -44,7 +44,7 @@ public:
             for (int x = 0; x < gridWidth; ++x) {
                 for (int y = 0; y < gridHeight; ++y) {
                     int random = rand();
-                    if (random % 51 == 0) {
+                    if (random % 101 == 0) {
                         cellules[x][y] = new CelluleObstacle();
                     } 
                     else if(random % 5 == 0){
@@ -71,8 +71,11 @@ public:
                         else if(caractere == '1'){
                             cellules[x][y] = new LifeCell();
                         }
-                        else{
+                        else if (caractere == '2'){
                             cellules[x][y] = new CelluleObstacle();
+                        }
+                        else{
+                             cellules[x][y] = new DeathCell();
                         }
                     }
                 }
@@ -87,6 +90,15 @@ public:
                 if (!dynamic_cast<CelluleObstacle*>(cellules[x][y])) {
                     cellules[x][y] = new CelluleObstacle();
                     cout << "Cellule obstacle placée à (" << x << ", " << y << ")" << endl;
+                }
+            }
+        }
+        void placeLifeCell(int x, int y){
+             if (x >= 0 && x < gridWidth && y >= 0 && y < gridHeight) {
+                if (!dynamic_cast<LifeCell*>(cellules[x][y])) {
+                    delete cellules[x][y];
+                    cellules[x][y] = new LifeCell();
+                    cout << "Cellule Vivante placée à (" << x << ", " << y << ")" << endl;
                 }
             }
         }

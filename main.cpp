@@ -19,14 +19,16 @@ int main() {
     };
 
     int iteration = 0;
-
+    float ecart;
     bool isPaused = false; 
     Grid grid;
+    cout << "Temps en millesecondes entre 2 mesures"<<endl;
+    cin>> ecart;
 
 
     sf::RenderWindow window(sf::VideoMode(grid.get_gridWidth() * grid.get_cellSize(), grid.get_gridHeight() * grid.get_cellSize()), "Game of Life");
     grid.initializeGrid();
-    
+
     string outputFolder = "output";
     if (!filesystem::exists(outputFolder)) {
         filesystem::create_directory(outputFolder);
@@ -35,10 +37,14 @@ int main() {
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
+                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                     int X = mousePos.x / grid.get_cellSize();
+                     int Y = mousePos.y / grid.get_cellSize();
             if (event.type == sf::Event::Closed) {
                 FileManagement::deleteTxtFilesInDirectory(outputFolder);  
                 window.close();  
             }
+            
             if (event.type == sf::Event::KeyPressed) {
                  if (event.key.code == sf::Keyboard::Space) {
                     isPaused = !isPaused; 
@@ -47,31 +53,31 @@ int main() {
                     }
                 }
                 if (event.key.code == sf::Keyboard::O) {
-                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                    int X = mousePos.x / grid.get_cellSize();
-                    int Y = mousePos.y / grid.get_cellSize();
                     grid.placeObstacle(X, Y); 
                 }
-            }
+                if  (event.key.code == sf::Keyboard::V){ 
+                    grid.placeLifeCell(X, Y); 
+                }
+                if (event.key.code == sf::Keyboard::I){
+                    isPaused = !isPaused; 
+                    cout << "Modification des paramètres" << endl; 
+                }
+            
+         }
             
             if (event.type == sf::Event::MouseButtonPressed) {
                     cout << "Glidder implémenté " << endl;
-                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                         int X = mousePos.x / grid.get_cellSize();
-                         int Y = mousePos.y / grid.get_cellSize();
-
                     grid.placePattern(X, Y, glider);
             }
         }
         if (!isPaused) {
             grid.update();  
             FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", grid);
-
             iteration++;
         }
         grid.renderGrid(window);
         iteration++;
-        sf::sleep(sf::milliseconds(0));
+        sf::sleep(sf::milliseconds(ecart));
     }
     return 0;
-};
+}
