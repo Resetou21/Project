@@ -1,6 +1,6 @@
 #include "FileManagement.h"
+#include <fstream>
 
-// Implémentation de writeToFile
 void FileManagement::writeToFile(const std::string &filename, const Grid &grid) {
     std::ofstream file(filename);
     if (!file.is_open()) {
@@ -12,6 +12,7 @@ void FileManagement::writeToFile(const std::string &filename, const Grid &grid) 
     int gridHeight = grid.get_gridHeight();
     const auto &cellules = grid.getCells();
 
+    // Écriture dans le fichier
     for (int i = 0; i < gridWidth; ++i) {
         for (int j = 0; j < gridHeight; ++j) {
             if (cellules[i][j] && cellules[i][j]->estVivante() == 1) {
@@ -26,7 +27,6 @@ void FileManagement::writeToFile(const std::string &filename, const Grid &grid) 
     }
 }
 
-// Implémentation de deleteTxtFilesInDirectory
 void FileManagement::deleteTxtFilesInDirectory(const std::string &directory) {
     try {
         for (const auto &entry : fs::directory_iterator(directory)) {
