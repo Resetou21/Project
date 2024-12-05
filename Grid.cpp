@@ -14,6 +14,9 @@ Grid::~Grid() {
 int Grid::get_gridWidth() const {
     return gridWidth;
 }
+int Grid::get_status_cell(int x,int y){
+    return cellules[x][y]->estVivante();
+}
 
 int Grid::get_cellSize() const {
     return cellSize;
@@ -177,25 +180,47 @@ void Grid::renderGrid(sf::RenderWindow& window) {
     }
     window.display();
 }
-string Grid::test(int x, int y,int nombre_voisin){
+string Grid::test(int x, int y,int nombre_voisin,int etat_precedent){   
     if (cellules[x][y]->estVivante()==2){
         return "C'est un obstacle o";
     }
     else{
-        if (cellules[x][y]->estVivante()==1){
-            if (nombre_voisin == 2 || nombre_voisin == 3){
-                return "Test validé v";
+        if (etat_precedent = 0){
+            if (cellules[x][y]->estVivante()==1){
+                if (nombre_voisin == 3){
+                    return "Test validé v";
+                }
+                else{
+                    return "Test non validé v";
+                }
             }
-            else{
-                return "Test non validé v";
+            else if (cellules[x][y]->estVivante()==0){            
+                if (nombre_voisin != 3){
+                    return "Test validé m";
+                }
+                else{
+                    return "Test non validé m";
+                }
+            
             }
         }
-        else if (cellules[x][y]->estVivante()==0){            
-            if (nombre_voisin != 3){
-                return "Test validé m";
+        else if (etat_precedent = 1){
+            if (cellules[x][y]->estVivante()==1){
+                if (nombre_voisin == 3 ||nombre_voisin == 2){
+                    return "Test validé v";
+                }
+                else{
+                    return "Test non validé v";
+                }
             }
-            else{
-                return "Test non validé m";
+            else if (cellules[x][y]->estVivante()==0){            
+                if (nombre_voisin != 3 || nombre_voisin != 2){
+                    return "Test validé m";
+                }
+                else{
+                    return "Test non validé m";
+                }
+            
             }
         
         }

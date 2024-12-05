@@ -46,19 +46,22 @@ int main() {
         {0, 0, 1, 1},
         {0, 0, 1, 1}
     };
-
+    char mode_console;
     int maxiteration;
     int iteration = 0;
     float ecart = 100;
     int test_nombre_voisin;
+    int etat_precedent;
+    cout<<"Mode |C|onsole ou |G|raphique ?";
+    cin>>mode_console;
     cout<<"Entrez le nombre d'iteration"<<endl;
     cin>> maxiteration;
     bool isPaused = false; 
     Grid grid;
-    
     sf::RenderWindow window(sf::VideoMode(grid.get_gridWidth() * grid.get_cellSize(), grid.get_gridHeight() * grid.get_cellSize()), "Game of Life");
     grid.initializeGrid();
-
+    
+ 
     string outputFolder = "output";
     if (!filesystem::exists(outputFolder)) {
         filesystem::create_directory(outputFolder);
@@ -111,11 +114,12 @@ int main() {
 
         }
         if (!isPaused && iteration < maxiteration) {
-            
+            etat_precedent = grid.get_status_cell(0,0);
             test_nombre_voisin = grid.compterVoisinsVivants(0,0);
             grid.update();
-            cout<<grid.test(0,0,test_nombre_voisin)<<endl;  
-            FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", grid);
+            cout<<grid.test(0,0,test_nombre_voisin,etat_precedent)<<endl;  
+            if (mode_console=='C'){
+                FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", grid);}
             iteration++;
         }
 

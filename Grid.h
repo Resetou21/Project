@@ -27,7 +27,7 @@ public:
     int get_cellSize() const;
     int get_gridHeight() const;
     const std::vector<std::vector<Cell*>>& getCells() const;
-    string test(int x, int y,int nombre_voisin);
+    string test(int x, int y,int nombre_voisin,int etat_precedent);
     // Méthodes principales
     void initializeGrid(); // initialisation de la grille
     void test_unitaire();
@@ -38,4 +38,5 @@ public:
     void update(); // met a jour la grille
     void renderGrid(sf::RenderWindow& window);
     void resutlat_test_unitaire();
+    int get_status_cell(int x,int y);
 };
