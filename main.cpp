@@ -22,7 +22,7 @@ using namespace std;
 
 
 int main() {
-    
+    //  motifs prédéfinis du jeu de la vie.
     vector<vector<int>> loaf = {
     {0, 1, 1, 0},
     {1, 0, 1, 1},
@@ -49,7 +49,7 @@ int main() {
     char mode_console;
     int maxiteration;
     int iteration = 0;
-    float ecart = 100;
+    float modification = 100;
     int test_nombre_voisin;
     int etat_precedent;
     cout<<"Mode |C|onsole ou |G|raphique ?";
@@ -61,15 +61,15 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(grid.get_gridWidth() * grid.get_cellSize(), grid.get_gridHeight() * grid.get_cellSize()), "Game of Life");
     grid.initializeGrid();
     
- 
+     // Gestion des fichiers de sortie
     string outputFolder = "output";
     if (!filesystem::exists(outputFolder)) {
         filesystem::create_directory(outputFolder);
     }
 
     while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
+        sf::Event event; 
+        while (window.pollEvent(event)) {  //permet de récupérer les événements générés par l'utilisateur ou le système
                      sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                      int X = mousePos.x / grid.get_cellSize();
                      int Y = mousePos.y / grid.get_cellSize();
@@ -93,7 +93,7 @@ int main() {
                 }
                 if (event.key.code == sf::Keyboard::I){
                     cout << "Modification des paramètres" << endl; 
-                    cin>> ecart;
+                    cin>> modification;
                 }
                 if (event.key.code == sf::Keyboard::Numpad1){
                     grid.placePattern(X,Y,loaf);
@@ -112,21 +112,21 @@ int main() {
                     grid.placePattern(X, Y, glider);
             }
 
-        }
+        } // mis a jour de la grille 
         if (!isPaused && iteration < maxiteration) {
-            etat_precedent = grid.get_status_cell(0,0);
-            test_nombre_voisin = grid.compterVoisinsVivants(0,0);
+            etat_precedent = grid.get_status_cell(0,0);  // donne l'état de la cellulue mort ou vivante
+            test_nombre_voisin = grid.compterVoisinsVivants(0,0);  // pour le test unitaire sur une cellule précise.
             grid.update();
             cout<<grid.test(0,0,test_nombre_voisin,etat_precedent)<<endl;  
             if (mode_console=='C'){
-                FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", grid);}
+                FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", grid);}  // ecrit dans des nouveaux fichier l'état de la grille
             iteration++;
         }
 
  
         grid.renderGrid(window);
 
-        sf::sleep(sf::milliseconds(ecart));
+        sf::sleep(sf::milliseconds(modification)); //temporisation en miliseconde de la grille.
         
         }
         

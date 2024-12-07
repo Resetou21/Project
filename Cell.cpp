@@ -1,8 +1,5 @@
 #include "Cell.h"
 
-
-LifeCell::LifeCell() : vivante(true) {}
-
 int LifeCell::estVivante() const {
     return 1;
 }

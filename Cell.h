@@ -2,18 +2,15 @@
 
 class Cell {
 public:
-    virtual int estVivante() const = 0;
-    virtual void setEtat(bool etat) = 0;
-    virtual ~Cell() {}
+    virtual int estVivante() const = 0;  // Renvoie l'état de la cellule (vivante ou morte)
+    virtual void setEtat(bool etat) = 0;  // Fonction pour changer l'état de la cellule (vivante ou morte)
+    virtual ~Cell() {} // destructeur 
 };
-
+ // heritage de cellule vivante. Cellule vivante est un "enfant" de Cellule.
 class LifeCell : public Cell {
 private:
-    bool vivante;
-
+    bool vivante; // vivant ou mort 
 public:
-    LifeCell();
-
     int estVivante() const override;
     void setEtat(bool etat) override;
 };
