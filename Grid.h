@@ -29,7 +29,7 @@ public:
     const std::vector<std::vector<Cell*>>& getCells() const;
     string test(int x, int y,int nombre_voisin,int etat_precedent);
     // Méthodes principales
-    void initializeGrid(); // initialisation de la grille
+    void initializeGrid(char mode); // initialisation de la grille
     void test_unitaire();
     void placeObstacle(int x, int y); // placement d'obstacle sur la grille
     void placeLifeCell(int x, int y); // placement de celulle vivante sur la grille

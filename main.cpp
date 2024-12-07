@@ -59,7 +59,7 @@ int main() {
     bool isPaused = false; 
     Grid grid;
     sf::RenderWindow window(sf::VideoMode(grid.get_gridWidth() * grid.get_cellSize(), grid.get_gridHeight() * grid.get_cellSize()), "Game of Life");
-    grid.initializeGrid();
+    grid.initializeGrid(mode_console);
     
      // Gestion des fichiers de sortie
     string outputFolder = "output";
@@ -117,8 +117,9 @@ int main() {
             etat_precedent = grid.get_status_cell(0,0);  // donne l'état de la cellulue mort ou vivante
             test_nombre_voisin = grid.compterVoisinsVivants(0,0);  // pour le test unitaire sur une cellule précise.
             grid.update();
-            cout<<grid.test(0,0,test_nombre_voisin,etat_precedent)<<endl;  
+              
             if (mode_console=='C'){
+                cout<<grid.test(0,0,test_nombre_voisin,etat_precedent)<<endl;
                 FileManagement::writeToFile(outputFolder + "/iteration_" + to_string(iteration) + ".txt", grid);}  // ecrit dans des nouveaux fichier l'état de la grille
             iteration++;
         }

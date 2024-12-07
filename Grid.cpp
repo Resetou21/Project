@@ -33,12 +33,14 @@ const std::vector<std::vector<Cell*>>& Grid::getCells() const {
     return cellules;
 }
 // Fonction pour initialiser la grille de manière aléatoire ou à partir d'un fichier
-void Grid::initializeGrid() {
+void Grid::initializeGrid(char mode) {
     srand(time(0)); // Initialise le générateur de nombres aléatoires avec l'heure actuelle
-    char type;
+    char type = 'R';
+    if (mode != 'C'){
     cout << "|R|andom ou |G|rille" << endl;
     cin >> type;
-    if (type == 'R') {   // Si l'utilisateur choisit 'R', la grille est remplie aléatoirement
+    }
+    if (type == 'R' || mode =='C') {   // Si l'utilisateur choisit 'R', la grille est remplie aléatoirement
         for (int x = 0; x < gridWidth; ++x) {
             for (int y = 0; y < gridHeight; ++y) {
                 int random = rand();
