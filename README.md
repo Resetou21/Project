@@ -67,5 +67,4 @@
 
 ### Commande de compilation
 ```bash
-g++ main.cpp Grid.cpp FileManagement.cpp Cell.cpp "-o "nom_du_fichier" "-lsfml "-graphics" "-lsfml" "-window "-lsfml" "-system"
-
+g++ main.cpp Grid.cpp FileManagement.cpp Cell.cpp -o nom_du_fichier -lsfml-graphics -lsfml-window -lsfml-system
